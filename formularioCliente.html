@@ -11,7 +11,80 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
         <link rel="stylesheet" href="styles_index.css">
+
+
+        <style>
+            /* Always set the map height explicitly to define the size of the div
+        * element that contains the map. */
+            #map {
+                height: 100%;
+            }
+            /* Optional: Makes the sample page fill the window. */
+            html,
+            body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+        </style>
+
+        <script>
+            // This example requires the Places library. Include the libraries=places
+            // parameter when you first load the API. For example:
+            // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+            var map;
+            var service;
+            var infowindow;
+
+            function initMap() {
+                var location = new google.maps.LatLng(19.4352531, -99.195);
+
+                infowindow = new google.maps.InfoWindow();
+
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: location,
+                    zoom: 15
+                });
+
+                var request = {
+                    location: location,
+                    radius: '1000',
+                    type: ['ATM'],
+                    keyword: 'HSBC'
+                };
+                // 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=19.43525,-99.1950&radius=1000&type=atm&keyword=hsbc&key=AIzaSyCxMdXtwSX5QtiOswdLm7AaUx-KXBDIb9E';
+                // var request = {
+                // 	query: 'ATM HSBC',
+                // 	fields: ['name', 'geometry']
+                // };
+
+                service = new google.maps.places.PlacesService(map);
+
+                service.nearbySearch(request, function callback(results, status) {
+                    if (status == google.maps.places.PlacesServiceStatus.OK) {
+                        for (var i = 0; i < results.length; i++) {
+                            var place = results[i];
+                            createMarker(results[i]);
+                        }
+                    }
+                });
+            }
+
+            function createMarker(place) {
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: place.geometry.location
+                });
+                // console.log(place.geometry.location);
+                google.maps.event.addListener(marker, 'click', function() {
+                    infowindow.setContent(place.name);
+                    infowindow.open(map, this);
+                });
+            }
+        </script>
 
         <title>Document</title>
     </head>
@@ -19,7 +92,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-3"></div>
-                <div class="col-6 login">
+                <div class="col-6 login" id="main">
                     <div class="header">
                         <h4	class="display-3">HSBC</h4>
                         <h5>Reporte de cajeros</h5>
@@ -29,45 +102,105 @@
                         <form action="" method="POST">
                             <div class="form-group">
                                 <h5 for="email">Correo electrónico:</h5>
-                                <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Ingresa tu correo">
+                                <input type="email" class="form-control" id="email" name="error" aria-describedby="emailHelp" placeholder="Ingresa tu correo">
                             </div>
                             <br>
                             <h5>Selecciona el tipo de error que presenta el cajero:</h5>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="formRadios" id="lento" value="1" checked>
+                                <input class="form-check-input" type="radio" name="error" id="lento" value="1" checked>
                                 <label class="form-check-label" for="lento">
                                     El cajero está muy lento
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="formRadios" id="dinero" value="2">
+                                <input class="form-check-input" type="radio" name="error" id="dinero" value="2">
                                 <label class="form-check-label" for="dinero">
                                     El cajero no tiene dinero
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="formRadios" id="tarjeta" value="3">
+                                <input class="form-check-input" type="radio" name="error" id="tarjeta" value="3">
                                 <label class="form-check-label" for="tarjeta">
                                     El cajero se tragó mi tarjeta
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="formRadios" id="teclado" value="4">
+                                <input class="form-check-input" type="radio" name="error" id="teclado" value="4">
                                 <label class="form-check-label" for="teclado">
                                     El teclado no funciona correctamente
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="formRadios" id="otra" value="5">
+                                <input class="form-check-input" type="radio" name="error" id="otra" value="5">
                                 <label class="form-check-label" for="otra">
                                     Otra
                                 </label>
                             </div>
+                            <!-- <button type="submit" class="btn btn-primary" >Mandar Reporte</button> -->
                             <button type="button" class="btn btn-primary" onclick="reportar()">Mandar Reporte</button>
                         </form>
                     </div>
+
+                    
+
                 </div>
             <div class="col-3"></div>
         </div>
+        <script>
+            function reportar(){
+                var error = $("input[name='error']:checked").val();
+                /* var id = 999991756; */
+                var id = getParameterByName("id");
+
+                $.ajax({
+                    url: "https://us-central1-brave-standard-239114.cloudfunctions.net/userForm",
+                    data: "{\n    \"email\": \""+$("#email")[0].value+"\",\n    \"error\": \""+error+"\",\n \"id\": \""+id+"\"\n}",
+                    contentType:'application/json',
+                    type: 'POST',
+                    success: function(data){
+                        console.log(data);
+                        //alert(data);
+                        deleteChilds("main");
+                        var html = "<h3>¡Reporte enviado!</h3>";
+                        html += "<h5>Gracias por reportar el error</h5>";
+                        html += "<p>Lo arreglaremos lo más rápido posible, mientras tanto, puedes visitar otras sucursales cerca de ti</p>";
+                        html += "<div id='map' width='500px'></div>";
+                        html += "<a href='file:///C:/Users/Esteban/Documents/GitHub/GoogleHSBC/formularioCliente.html?id=2222'class='btn btn-primary'>Aceptar</a>";
+                        
+                        var cot = document.getElementById("main");
+                        cot.insertAdjacentHTML("beforeend", html);  
+                        initMap();
+                    },error: function(data){
+                        alert("Error!");
+                    },
+                    async: true,
+                });
+            }
+
+            function deleteChilds(id){
+                var element = document.getElementById(id);
+                while (element.hasChildNodes()) {
+                    element.removeChild(element.lastChild);
+                }  
+            }
+
+            function getParameterByName(name, url) {
+                alert(name);
+                if (!url) url = window.location.href;
+                name = name.replace(/[\[\]]/g, "\\$&");
+                var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                    results = regex.exec(url);
+                if (!results) return null;
+                if (!results[2]) return '';
+                return decodeURIComponent(results[2].replace(/\+/g, " "));
+            }
+        </script>
+
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxMdXtwSX5QtiOswdLm7AaUx-KXBDIb9E&libraries=places&callback=initMap"
+    async
+    defer
+></script>
+
     </body>
 </html>
