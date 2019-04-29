@@ -1,0 +1,135 @@
+.login {
+    text-align: center;
+    padding-top: 50px;
+}
+
+.signup {
+    text-align: center;
+    padding-top: 90px;
+}
+
+.button-login{
+    display: inline-block;
+    margin: 1em 0 0;
+    background: #1036a0;
+    color: #fff;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    border: 2px solid #d2af1e;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 800;
+}
+
+.header{
+    margin: 20px;
+}
+
+
+
+
+header{
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+}
+
+.navbar-brand{
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 1.5em;
+    margin-left:60px;
+}
+
+.navbar-brand p{
+    z-index: 10;
+    margin: 5px;
+}
+
+.navbar div{
+    margin:0;
+    padding: 0;
+}
+
+.nav-item{
+    font-weight: 700;
+    text-transform: uppercase;
+}
+.navbar-light .navbar-nav .nav-item .nav-link:hover
+{
+    color: #383838;
+}
+
+.navbar-light .navbar-nav .nav-item.active .nav-link{
+    /* background: #c9c8c8; */
+    /* background: #fdfcfc;  */
+    color: #383838;
+    /* color: #424242; */
+}
+
+.navbar-light .navbar-nav .nav-item .nav-link{
+    color: #838282;
+    padding: 5px 17px;
+}
+
+.navbar{
+    padding: 10px 0;
+    background: #eeeded;
+}
+
+.navbar-light .navbar-toggler{
+    border: none;
+    color: #fff;
+    border-radius: 0;
+    outline: none;
+}
+
+
+.banner{
+    height: 100vh;
+    position: relative;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100%;
+    margin-top: -50px;
+}
+
+
+.input-row{
+    margin: 5px;
+}
+
+.input-row label{
+    font-weight: 500;
+}
+
+.card-content a{
+    text-decoration: none;
+    color: #383838;
+    
+}
+
+.card-content a:hover{
+    text-decoration: none;
+    color: #838282;
+}
+
+.cart-products-overview{
+    overflow-y: auto;
+    max-height: 60vh;
+}
+
+.btn-delete{
+    display: inline-block;;
+    background: #fff;
+    color:  #838282;
+    border: none;
+    margin-left: 5px;
+    font-weight: 400;
+}
+
+.btn-delete:hover{
+    color: #383838;
+}
